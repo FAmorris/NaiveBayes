@@ -1,7 +1,6 @@
-#include <iostream>
 #include <cstdlib>
+#include <iomanip>
 #include "../inc/Data.h"
-using namespace std;
 
 Data::Data( i32 r, i32 c, i32 nc )
 {
@@ -134,6 +133,8 @@ void Data::DT_CreatFramework( )
 			exit( -1 );
 		}/* end if */
 	}/* end for */
+
+	DT_Init();
 }/* end function DT_CreatFramework */
 
 void Data::DT_Init()
@@ -143,13 +144,13 @@ void Data::DT_Init()
 	i32 r, c;
 
 	if ( this->spPtrs != NULL ){
-		for ( r = 0; r < temp2; r++ ){
-			for ( c = 0; c < temp1; c++ ){
+		for ( c = 0; c < temp1; c++ ){
+			for ( r = 0; r < temp2; r++ ){
 				this->spPtrs[ r ][ c ] = 0.0;
 			}/* end inner for */
 
-			this->sqPtr[ r ] = r;
-			this->aPtr[ r ] = 0;
+			this->sqPtr[ c ] = c;
+			this->aPtr[ c ] = 0;
 
 		}/* end outer for */
 	}/* end if */
@@ -233,3 +234,87 @@ Data::~Data()
 
 	delete this->spPtrs;
 }/* end deconstuctor */
+
+ostream &operator<<( ostream &output, const Data &dt )
+{
+	i32 i, j, n;
+	i32 temp1 = 0, temp2 = 0, temp3 = 0, temp4 = 0;
+	i32 r = dt.DT_GetMatrixRow();
+	i32 c = dt.DT_GetMatrixColumn();
+
+	if( dt.spPtrs == NULL || dt.aPtr == NULL ){
+		if( !dt.spPtrs ) output << "\n样本数据不存在!" << endl;
+		if( !dt.aPtr ) output << "\n样本输出不存在！" << endl;
+		return output;
+	}/* end if */
+
+	temp1 = c / 10;
+	temp2 = c % 10;
+
+	if( temp1 != 0 ){
+		
+		for( n = 0; n < temp1; n++ ){
+			output << "\n样本输入：" << temp3 << "-" << temp4 + 10 << endl;
+			for( i = 0; i < r + 1; i++ ){
+
+				if( i == r ) output << "\n样本输出：" << endl;
+
+				for( j = temp3; j < temp4 + 10; j++ ){
+					if ( i < r ) output << setprecision( 3 ) << fixed << dt.spPtrs[ i ][ j ] << " ";
+					else output << setprecision( 3 ) << fixed << dt.aPtr[ j ] << " ";
+				}/* end for */
+				output << endl;
+			}/* end for */
+			output << endl;
+
+			temp3 = temp4 + 10;
+			temp4 += 10;
+		}/*end for */
+		output << endl;
+	}/* end if */
+
+	if( temp2 != 0 ){
+		output << "\n样本输入：" << temp3 << "-" << temp4 + temp2 << endl;
+		for( i = 0; i < r + 1; i++ ){
+			if( i == r ) output << "\n样本输出：" << endl;
+
+			for( j = temp3; j < temp4 + temp2; j++ ){
+
+				if( i < r ) output << setprecision( 3 ) << fixed << dt.spPtrs[ i ][ j ] << " ";
+				else output << setprecision( 3 ) << fixed << dt.aPtr[ j ] << " ";
+			}/* end inner for */
+			output << endl;
+		}/* end outer for*/
+		output << endl;
+	}/*end if */
+	return output;
+}/* end function operator<< */
+
+istream &operator>>( istream &input, Data &dt )
+{
+	i32 i, j;
+	i32 temp1 = dt.DT_GetMatrixRow();
+	i32 temp2 = dt.DT_GetMatrixColumn();
+
+	if( dt.spPtrs == NULL ){
+		cout << "\n数据存储结构不存在！" << endl;
+		return input;
+	}/* end if */
+
+	cout << "\n输入样本输入：" << endl;
+
+	for( i = 0; i < temp2; i++ ){
+		for( j = 0; j < temp1; j++ ){
+			input >>dt.spPtrs[ j ][ i ];
+		}/* end inner for */
+	}/*end outer for */
+
+	cout << endl;
+	cout << "\n输入样本输出：" << endl;
+
+	for( i = 0; i < temp2; i++ ){
+		input >> dt.aPtr[ i ];
+	}/* end for */
+	cout << endl;
+	return input;
+}/* end function operator>> */

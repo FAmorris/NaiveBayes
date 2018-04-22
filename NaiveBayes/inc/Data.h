@@ -1,9 +1,14 @@
 #ifndef __DATA_H
 #define __DATA_H
 
+#include <iostream>
 #include "UserType.h"
+using namespace std;
 
 class Data{
+	friend ostream &operator<<( ostream &, const Data & );
+	friend istream &operator>>( istream &, Data & );
+
 public :
 	Data( i32 = 0, i32 = 0, i32 = 0 );
 	~Data();
