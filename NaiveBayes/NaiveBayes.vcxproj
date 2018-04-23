@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Data.cpp" />
+    <ClCompile Include="src\NaiveBayes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Data.h" />
