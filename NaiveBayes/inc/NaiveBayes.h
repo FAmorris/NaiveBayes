@@ -4,25 +4,29 @@
 #include "Data.h"
 
 typedef struct{
-	d64 **xPtrs;
-	d64 **pPtrs;
+	i32 *indexPtr;
+	i32 count;
+	d64 *pPtr;
 }PrbDisbTypeDef, *PrbDisbTypeDefPtr;
 
 class NaiveBayes{
 public :
-	NaiveBayes( i32 r = 0, i32 c = 0, i32 nc = 0, i32 lm = 0 );
+	NaiveBayes( i32 r, i32 c, i32 nc, i32 lm = 0 );
 	
+	void NB_SetLanmda( i32 lm );
+	void NB_CreatFramework();
+	void NB_Init();
+	void NB_ProbabilityDistribution();
 	void NB_CaculationProbability();
 	void NB_DifferClassesTotalCal();
-	void NB_SetLanmda( i32 lm );
 
-	i32 NB_ClassifyInput( d64 *vPtr, i32 numOfElement ) const;
 	i32 NB_GetLanmda() const;
+	i32 NB_ClassifyInput( d64 *vPtr, i32 numOfElement ) const;
 
-	Data nbData;
+	Data trainData;
+	Data testData;
 private :
 	d64 *prbPtr;
-	i32 *cntPtr;
 	i32 lanmda;
 	PrbDisbTypeDefPtr disPtr;
 };

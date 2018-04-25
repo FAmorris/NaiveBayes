@@ -10,7 +10,7 @@ class Data{
 	friend istream &operator>>( istream &, Data & );
 
 public :
-	Data( i32 = 0, i32 = 0, i32 = 0 );
+	Data( i32 r, i32 c, i32 nc );
 	~Data();
 
 	void DT_SetMatrixRow( i32 r );
@@ -24,6 +24,8 @@ public :
 	i32 DT_GetNumOfClasses( ) const;
 	i32 DT_IsInData( d64 *dPtr ) const;
 	i32 DT_IsInList( i32 element, i32 numOfElement ) const;
+	const i32 *DT_GetAimOutput() const;
+	const d64 **DT_GetSamples() const;
 
 	void DT_SortSequence( i32 dim );
 	void DT_RandSequence( );

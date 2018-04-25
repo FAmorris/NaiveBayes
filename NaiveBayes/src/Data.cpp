@@ -81,6 +81,16 @@ i32 Data::DT_GetNumOfClasses( ) const
 	return this->numOfClasses;
 }/* end function DT_GetNumOfClasses */
 
+const i32 *Data::DT_GetAimOutput() const
+{
+	return this->aPtr;
+}/* end function DT_GetAimOutput */
+
+const d64 **Data::DT_GetSamples() const
+{
+	return this->spPtrs;
+}/* end function DT_GetSamples */
+
 void Data::DT_CreatFramework( )
 {
 	i32 i;
