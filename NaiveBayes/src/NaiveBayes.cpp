@@ -20,12 +20,28 @@ NaiveBayes::NaiveBayes( i32 r, i32 c, i32 nc, i32 lm )
 	this->prbPtr = NULL;
 
 	NB_SetLanmda( lm );
+	this->NB_CreatFramework();
+	this->NB_Init();
 }/* end constructor */
 
 void NaiveBayes::NB_SetLanmda( i32 lm )
 {
 	this->lanmda = ( lm >= 0 ) ? lm : 0;
 }/* end function NB_SetLanmda */
+
+void NaiveBayes::NB_SetInput( d64 *vPtr )
+{
+	i32 rows = trainData.DT_GetMatrixRow();
+
+	for( i32 i = 0; i < rows; i++ ){
+		this->inPtr[ i ] = vPtr[ i ];
+	}/* end for */
+}/* end function NB_SetInput */
+
+i32 NaiveBayes::NB_GetLanmda() const
+{
+	return this->lanmda;
+}/* end function NB_GetLanmda */
 
 void NaiveBayes::NB_CreatFramework()
 {
@@ -94,8 +110,8 @@ void NaiveBayes::NB_ProbabilityDistribution()
 	i32 *cPtr  = new i32[ trainData.DT_GetNumOfClasses() + 1 ];
 	i32 *ccPtr = new i32[ trainData.DT_GetMatrixRow() ];
 	d64 *tPtr = new d64[ trainData.DT_GetMatrixColumn() ];
-	const i32 *aPtr = trainData.DT_GetAimOutput();
-	const d64 **sPtrs = trainData.DT_GetSamples();
+	i32 *aPtr = trainData.DT_GetAimOutput();
+	d64 **sPtrs = trainData.DT_GetSamples();
 	
 	for( i = 0; i < noc + 1; i++ ){
 		cPtr[ i ] = 0;
@@ -105,6 +121,13 @@ void NaiveBayes::NB_ProbabilityDistribution()
 		cPtr[ aPtr[ i ] ]++;
 	}/* end for */
 	
+	cout << "\n类别个数：" << endl;
+
+	for( i = 1; i < noc + 1; i++ ){
+		cout << cPtr[ i ] << " ";
+	}
+	cout << endl;
+
 	for( i = 0; i < rows; i++ ){
 		for( j = 0; j < cols; j++ ){
 			if( !isInList( tPtr, sPtrs[ i ][ j ], j ) ){
@@ -116,11 +139,23 @@ void NaiveBayes::NB_ProbabilityDistribution()
 		counter = 0;
 	}/* end for */
 
+	cout << "\n取值个数：" << endl;
+
+	for( i = 0; i < rows; i++ ){
+		cout << ccPtr[ i ] << " ";		
+	}/* end for */
+
 	for( i = 1; i < noc + 1; i++ ){
 		this->disPtr[ i ].count = cPtr[ i ];
 		this->disPtr[ i ].indexPtr = new i32[ cPtr[ i ] ];
 		this->disPtr[ i ].pPtr = new d64[ rows ];
 	}/* end for */
+
+	cout << "\n类别样本个数：" << endl;
+
+	for( i = 1; i < noc + 1; i++ ){
+		cout << this->disPtr[ i ].count << endl;
+	}
 
 	for( i = 1; i < noc + 1; i++ ){
 		k = 0;
@@ -132,6 +167,15 @@ void NaiveBayes::NB_ProbabilityDistribution()
 		}/* end for */
 	}/* end for */
 
+	cout << "\n索引 : " << endl;
+
+	for( i = 1; i < noc + 1; i++ ){
+		for( j = 0; j < this->disPtr[ i ].count; j++ ){
+			cout << this->disPtr[ i ].indexPtr[ j ] << " ";
+		}/* end for */
+		cout << endl;
+	}/* end for */
+
 	for( i = 1; i < noc + 1; i++ ){
 		for( j = 0; j < rows; j++ ){
 			numberator = ( d64 )( cPtr[ i ] + lanmda ) / ( cols + noc *  lanmda );
@@ -139,10 +183,17 @@ void NaiveBayes::NB_ProbabilityDistribution()
 			this->disPtr[ i ].pPtr[ j ] =  numberator / denominator;
 		}/* end for */
 	}/* end for */
+
+	cout << "\n概率分布：" << endl;
+
+	for( i = 1; i < noc + 1; i++ ){
+		for( j = 0; j < rows; j++ ){
+			cout << this->disPtr[ i ].pPtr[ j ] << " ";			
+		}
+	}
+
 	delete cPtr;
 	delete ccPtr;
 	delete tPtr;
-	delete aPtr;
-	delete sPtrs;
 }/* end function NB_ProbabilityDistribution */
 

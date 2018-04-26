@@ -24,8 +24,8 @@ public :
 	i32 DT_GetNumOfClasses( ) const;
 	i32 DT_IsInData( d64 *dPtr ) const;
 	i32 DT_IsInList( i32 element, i32 numOfElement ) const;
-	const i32 *DT_GetAimOutput() const;
-	const d64 **DT_GetSamples() const;
+	i32 *DT_GetAimOutput() const;
+	d64 **DT_GetSamples() const;
 
 	void DT_SortSequence( i32 dim );
 	void DT_RandSequence( );

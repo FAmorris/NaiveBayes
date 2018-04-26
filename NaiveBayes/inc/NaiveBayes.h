@@ -17,15 +17,16 @@ public :
 	void NB_CreatFramework();
 	void NB_Init();
 	void NB_ProbabilityDistribution();
-	void NB_CaculationProbability();
-	void NB_DifferClassesTotalCal();
+	void NB_SetInput( d64 *vPtr );
+//	void NB_CaculationProbability();
 
 	i32 NB_GetLanmda() const;
-	i32 NB_ClassifyInput( d64 *vPtr, i32 numOfElement ) const;
+//	i32 NB_ClassifyInput( d64 *vPtr, i32 numOfElement ) const;
 
 	Data trainData;
 	Data testData;
 private :
+	d64 *inPtr;
 	d64 *prbPtr;
 	i32 lanmda;
 	PrbDisbTypeDefPtr disPtr;

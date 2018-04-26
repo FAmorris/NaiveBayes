@@ -1,13 +1,13 @@
 #include <iostream>
 #include "./inc/Data.h"
+#include "./inc/NaiveBayes.h"
 using namespace std;
 
 int main( int agrc, char **argv )
 {
-	Data dt( 3, 1, 2 );
-	Data dt2( 3, 1, 2 );
-	
-	cin >> dt >> dt2;
-	cout << dt << dt2 << endl;
+	NaiveBayes n( 2, 15, 2, 1 );
 
+	cin >> n.trainData;
+
+	n.NB_ProbabilityDistribution();
 }/* end function main */
