@@ -6,22 +6,24 @@
 typedef struct{
 	i32 *indexPtr;
 	i32 count;
-	d64 *pPtr;
+	i32 *pPtr;
 }PrbDisbTypeDef, *PrbDisbTypeDefPtr;
 
 class NaiveBayes{
 public :
 	NaiveBayes( i32 r, i32 c, i32 nc, i32 lm = 0 );
 	
-	void NB_SetLanmda( i32 lm );
-	void NB_CreatFramework();
-	void NB_Init();
-	void NB_ProbabilityDistribution();
-	void NB_SetInput( d64 *vPtr );
-//	void NB_CaculationProbability();
+	void setLanmda( i32 lm );
+	void creatFramework();
+	void init();
+	void probabilityDistribution();
+	void setInput( d64 *vPtr );
+	void caculateProbability();
 
-	i32 NB_GetLanmda() const;
-//	i32 NB_ClassifyInput( d64 *vPtr, i32 numOfElement ) const;
+	i32 getLanmda() const;
+	d64 *getInput() const;
+	d64 *getProbability();
+	i32 classifyInput() const;
 
 	Data trainData;
 	Data testData;

@@ -13,24 +13,24 @@ public :
 	Data( i32 r, i32 c, i32 nc );
 	~Data();
 
-	void DT_SetMatrixRow( i32 r );
-	void DT_SetMatrixColumn( i32 c );
-	void DT_SetNumOfClasses( i32 nc );
+	void setMatrixRow( i32 r );
+	void setMatrixColumn( i32 c );
+	void setNumOfClasses( i32 nc );
 
-	void DT_GetData( d64 *vPtr, i32 c ) const;
-	void DT_GetSequence( i32 *vPtr ) const;
-	i32 DT_GetMatrixRow( ) const;
-	i32 DT_GetMatrixColumn( ) const;
-	i32 DT_GetNumOfClasses( ) const;
-	i32 DT_IsInData( d64 *dPtr ) const;
-	i32 DT_IsInList( i32 element, i32 numOfElement ) const;
-	i32 *DT_GetAimOutput() const;
-	d64 **DT_GetSamples() const;
+	void getData( d64 *vPtr, i32 c ) const;
+	void getSequence( i32 *vPtr ) const;
+	i32 getMatrixRow( ) const;
+	i32 getMatrixColumn( ) const;
+	i32 getNumOfClasses( ) const;
+	bool isInData( d64 *dPtr ) const;
+	bool isInList( i32 element, i32 numOfElement ) const;
+	i32 *getAimOutput() const;
+	d64 **getSamples() const;
 
-	void DT_SortSequence( i32 dim );
-	void DT_RandSequence( );
-	void DT_CreatFramework( );
-	void DT_Init();
+	void sortSequence( i32 dim );
+	void randSequence( );
+	void creatFramework( );
+	void init();
 
 private :
 	i32 row;
