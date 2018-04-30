@@ -12,6 +12,7 @@ typedef unsigned long int				u64;
 typedef float								f32;
 typedef double							d64;
 
+#define PRECISION				0.00000001
 #endif /* __USER_TYPE_H */
 
 /********************************************************** END OF HEARD FILE ***************************************************************/

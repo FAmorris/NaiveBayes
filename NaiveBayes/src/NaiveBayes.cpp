@@ -15,7 +15,7 @@ bool isInList( d64 *vPtr, d64 num, i32 numOfElement )
 
 bool isEqual( d64 src1, d64 src2 )
 {
-	if( fabs( src1 - src2 ) <= 0.000001 ){
+	if( fabs( src1 - src2 ) <= PRECISION ){
 		return true;
 	}/* end if */
 	return false;
@@ -111,16 +111,6 @@ void NaiveBayes::init()
 		cout << "\n算法结构未生成!" << endl;
 		exit( -1 );
 	}/* end else */
-
-	if( this->prbPtr != NULL ){
-		for( i32 i = 0; i < temp1 + 1; i++ ){
-			this->prbPtr[ i ] = 1.0;
-		}/* end for */
-	}/* end if */
-	else{
-		cout << "\n算法结构未生成!" << endl;
-		exit( -1 );
-	}/* end else */
 }/* end function NB_Init */
 
 void NaiveBayes::probabilityDistribution()
@@ -193,6 +183,10 @@ void NaiveBayes::caculateProbability()
 	i32 lm = this->getLanmda();
 	i32 temp = lm;
 
+	for ( i32 i = 0; i < noc + 1; i++ ){
+		this->prbPtr[ i ] = 1.0;
+	}/* end for */
+
 	for( i32 i = 1; i < noc +1; i++ ){
 		for( i32 j = 0; j < rows; j++ ){
 			for( i32 n = 0; n <  this->disPtr[ i ].count; n++ ){
@@ -208,8 +202,45 @@ void NaiveBayes::caculateProbability()
 
 }/* end function caculatePraobalitity*/
 
-i32 NaiveBayes::classifyInput() const
+i32 NaiveBayes::classifyInput()
 {
+	i32 count = 0;
+	d64 maxProbability = 0.0;
+	i32 noc = this->trainData.getNumOfClasses();
+	i32 *maxPtr = new i32[ noc + 1 ];
 
+	for( i32 i = 0; i < noc; i++ ){
+		maxPtr[ i ] = 0;
+	}/* end for */
+
+	this->caculateProbability();
+
+	for( i32 i = 1; i < noc + 1; i++ ){
+		if( this->prbPtr[ i ] > maxProbability ){
+			maxProbability = prbPtr[ i ];
+			count = 1;
+			maxPtr[ count - 1 ] = i;
+		}/* end if */
+		else if( this->prbPtr[ i ] == maxProbability && this->prbPtr[ i ] != 0.0 ){
+			count++;
+			maxPtr[ count - 1 ] = i;
+		}/* end if */
+	}/* end for */
+
+	return maxPtr[ rand() % count ];
 }/* end function classifyInput */
 
+ostream &operator<<( ostream &output, NaiveBayes &nb )
+{
+	nb.probabilityDistribution();
+	output << "\n朴素贝叶斯分类结果，输入类别为：" << nb.classifyInput();
+	return output;
+}/* end function operator<< */
+
+istream &operator>>( istream &input, NaiveBayes &nb )
+{
+	for( i32 i = 0; i < nb.trainData.getMatrixRow(); i++ ){
+		input >> nb.inPtr[ i ];
+	}/* end for*/
+	return input;
+}/* end function operator>> */
