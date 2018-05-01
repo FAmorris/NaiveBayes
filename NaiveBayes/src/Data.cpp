@@ -336,10 +336,10 @@ Data::~Data()
 }/* end deconstuctor */
 
 /**
- * @brief	输出流重载函数，用于显示样本数据
+ * @brief	输出流符号重载函数，用于显示样本数据
  * @param ostream &output 标准输出流类引用
  * @param cost Data &dt Data 类常引用
- * @retval  ostream & 标准输出流引用
+ * @retval  ostream & 标准输出流引用， 目的是为了“>>”符号连用
  */
 ostream &operator<<( ostream &output, const Data &dt )
 {
@@ -397,10 +397,10 @@ ostream &operator<<( ostream &output, const Data &dt )
 }/* end function operator<< */
 
 /**
- * @brief	输入流重载函数，用于输入样本集合数据
+ * @brief	输入流符号重载函数，用于输入样本集合数据
  * @param istream &input 标准输入流类引用
  * @param Data &dt Data 类引用
- * @retval  istream & 标准输出流引用
+ * @retval  istream & 标准输出流引用，目的是为了“>>”符号连用
  */
 istream &operator>>( istream &input, Data &dt )
 {
